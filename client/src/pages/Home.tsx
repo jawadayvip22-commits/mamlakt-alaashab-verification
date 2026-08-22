@@ -3,7 +3,7 @@
  * أزرق ملكي عميق، أصفر ذهبي، أحمر أصالة، وأبيض؛ تكوين جريء ومباشر للتحقق.
  */
 import { useState } from "react";
-import { ArrowDownLeft, ArrowLeft, CheckCircle2, ChevronDown, Leaf, Menu, ShieldCheck, X } from "lucide-react";
+import { ArrowDownLeft, ArrowLeft, CheckCircle2, ChevronDown, Leaf, Loader2, Menu, ShieldCheck, X } from "lucide-react";
 
 const productImage = "/manus-storage/product-main_9f687ce0.png";
 const logoImage = "/manus-storage/authenticity-warning_5bba3f81.avif";
@@ -22,12 +22,13 @@ export default function Home() {
   const [code, setCode] = useState("");
   const [attempted, setAttempted] = useState(false);
   const [verified, setVerified] = useState(false);
+  const [loading, setLoading] = useState(false);
   const [faqOpen, setFaqOpen] = useState<number | null>(0);
   const today = new Intl.DateTimeFormat("ar-SA", { year: "numeric", month: "long", day: "numeric" }).format(new Date());
-  const verifyCode = () => { const normalized = code.replace(/\D/g, "").slice(0, 12); setCode(normalized); setAttempted(true); setVerified(validCodes.includes(normalized)); };
+  const verifyCode = () => { if (loading) return; const normalized = code.replace(/\D/g, "").slice(0, 12); setCode(normalized); setLoading(true); setAttempted(false); setVerified(false); window.setTimeout(() => { setAttempted(true); setVerified(validCodes.includes(normalized)); setLoading(false); }, 850); };
 
   return <div dir="rtl" className="fresh-site">
-    <div className="top-line"><span>نظام حماية المنتج</span><span>كل عبوة أصلية تحمل كود تحقق خاصاً</span></div>
+    <div className="top-line"><span>ضماننا الذهبي : إن لم تستفيد من الكريم خلال ثلاثة أيام يمكنك زيارتنا وأسترجاع نقودك .</span></div>
     <header className="fresh-header"><a href="#top" className="fresh-brand"><img src={logoImage} alt="شعار مملكة الأعشاب" /><strong>مملكة الأعشاب</strong></a><nav className={menuOpen ? "fresh-nav open" : "fresh-nav"}><a href="#verify" onClick={() => setMenuOpen(false)}>تحقق من الأصالة</a><a href="#product" onClick={() => setMenuOpen(false)}>المنتج</a><a href="#faq" onClick={() => setMenuOpen(false)}>الأسئلة الشائعة</a></nav><a href="#verify" className="nav-action">ابدأ التحقق <ArrowLeft size={16} /></a><button className="fresh-menu" onClick={() => setMenuOpen(!menuOpen)} aria-label="القائمة">{menuOpen ? <X /> : <Menu />}</button></header>
 
     <main id="top">
@@ -37,7 +38,7 @@ export default function Home() {
 
       <section className="fresh-product" id="product"><div className="product-intro"><div className="yellow-label"><span /> المنتج الأصلي</div><h2>عناية يومية<br /><em>بثقة أكبر.</em></h2><p>طابق شكل العبوة مع الصورة، ثم استخدم كود الأصالة الموجود على المنتج للتحقق قبل الاستخدام.</p><div className="product-rule" /></div><div className="product-gallery"><img className="warning-photo" src={warningImage} alt="احذروا التقليد" /><img className="main-product-photo" src={productImage} alt="صورة المنتج الأصلي" /></div></section>
 
-      <section className="fresh-verify" id="verify"><div className="verify-side"><span className="verify-count">02</span><div className="yellow-label"><span /> التحقق في ثوانٍ</div><h2>هل منتجك<br /><em>أصلي؟</em></h2><p>أدخل الرقم الموجود على العبوة. لا نعرض الأكواد الصحيحة هنا حفاظاً على سرية النظام.</p></div><div className="fresh-form-card"><div className="form-top"><span>AUTHENTICITY CHECK</span><ShieldCheck size={20} /></div><label htmlFor="code">كود الأصالة — 12 رقماً</label><div className="fresh-form"><input id="code" value={code} onChange={(e) => { setCode(e.target.value.replace(/\D/g, "").slice(0, 12)); setAttempted(false); setVerified(false); }} inputMode="numeric" maxLength={12} placeholder="0000 0000 0000" /><button onClick={verifyCode}>تحقق <ArrowLeft size={17} /></button></div>{attempted && !verified && <div className="error-state">الكود غير صحيح ❌</div>}{attempted && verified && <div className="success-state"><CheckCircle2 size={20} /><div><strong>المنتج أصلي 100% من مصدر موثوق ✅</strong><span>تاريخ الاستخدام: {today}</span><span>التاريخ الحالي: {today}</span><span>شكرًا لاستخدامك نظام التحقق الخاص بنا 🙏.</span></div></div>}<small>بيانات التحقق محمية ولا تظهر الأكواد المعتمدة للزوار.</small></div></section>
+      <section className="fresh-verify" id="verify"><div className="verify-side"><span className="verify-count">02</span><div className="yellow-label"><span /> التحقق في ثوانٍ</div><h2>هل منتجك<br /><em>أصلي؟</em></h2><p>أدخل الرقم الموجود على العبوة. لا نعرض الأكواد الصحيحة هنا حفاظاً على سرية النظام.</p></div><div className="fresh-form-card"><div className="form-top"><span>AUTHENTICITY CHECK</span><ShieldCheck size={20} /></div><label htmlFor="code">كود الأصالة — 12 رقماً</label><div className="fresh-form"><input id="code" value={code} onChange={(e) => { setCode(e.target.value.replace(/\D/g, "").slice(0, 12)); setAttempted(false); setVerified(false); }} inputMode="numeric" maxLength={12} placeholder="0000 0000 0000" /><button onClick={verifyCode} disabled={loading}>{loading ? <><Loader2 className="loading-icon" size={17} /> جارٍ التحقق...</> : <>تحقق <ArrowLeft size={17} /></>}</button></div>{attempted && !verified && <div className="error-state">الكود غير صحيح ❌</div>}{attempted && verified && <div className="success-state"><CheckCircle2 size={20} /><div><strong>المنتج أصلي 100% من مصدر موثوق ✅</strong><span>تاريخ الاستخدام: {today}</span><span>التاريخ الحالي: {today}</span><span>شكرًا لاستخدامك نظام التحقق الخاص بنا 🙏.</span></div></div>}<small>بيانات التحقق محمية ولا تظهر الأكواد المعتمدة للزوار.</small></div></section>
 
       <section className="fresh-faq" id="faq"><div className="faq-title"><div className="yellow-label"><span /> معلومات مهمة</div><h2>إجابات<br /><em>بلا تعقيد.</em></h2></div><div className="faq-list">{faqs.map(([question, answer], index) => <div className="fresh-faq-item" key={question}><button onClick={() => setFaqOpen(faqOpen === index ? null : index)}><span>{question}</span><ChevronDown size={18} className={faqOpen === index ? "turn" : ""} /></button>{faqOpen === index && <p>{answer}</p>}</div>)}</div></section>
     </main>
