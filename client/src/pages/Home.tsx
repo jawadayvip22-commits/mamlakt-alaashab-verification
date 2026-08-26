@@ -9,7 +9,7 @@ const productImage = "/manus-storage/product-main_9f687ce0.png";
 const logoImage = "/manus-storage/authenticity-warning_5bba3f81.avif";
 const authenticityStamp = "/manus-storage/authenticity-stamp-final_47cd6db7.avif";
 const warningImage = "/manus-storage/authenticity-stamp-final_47cd6db7.avif";
-const validCodes = ["482716305914", "739204681527", "165938470226", "904372615880", "628501947336", "351867209445", "817430562791", "246795813604"];
+const validCodes = ["200040563079", "200040563038", "200040563935", "200040563267"];
 const normalizeDigits = (value: string) => value.replace(/[٠-٩]/g, (digit) => String(digit.charCodeAt(0) - 1632)).replace(/[۰-۹]/g, (digit) => String(digit.charCodeAt(0) - 1776)).replace(/\D/g, "").slice(0, 12);
 
 const faqs = [
