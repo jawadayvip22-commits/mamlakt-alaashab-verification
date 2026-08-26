@@ -5,10 +5,10 @@
 import { useState } from "react";
 import { ArrowDownLeft, ArrowLeft, CheckCircle2, ChevronDown, Leaf, Loader2, Menu, ShieldCheck, X } from "lucide-react";
 
-const productImage = "/manus-storage/product-main_9f687ce0.png";
-const logoImage = "/manus-storage/authenticity-warning_5bba3f81.avif";
-const authenticityStamp = "/manus-storage/authenticity-stamp-final_47cd6db7.avif";
-const warningImage = "/manus-storage/authenticity-stamp-final_47cd6db7.avif";
+const productImage = "./media/product-main.png";
+const logoImage = "./media/authenticity-warning.avif";
+const authenticityStamp = "./media/authenticity-stamp-final.avif";
+const warningImage = "./media/authenticity-stamp-final.avif";
 const validCodes = ["200040563079", "200040563038", "200040563935", "200040563267"];
 const normalizeDigits = (value: string) => value.replace(/[٠-٩]/g, (digit) => String(digit.charCodeAt(0) - 1632)).replace(/[۰-۹]/g, (digit) => String(digit.charCodeAt(0) - 1776)).replace(/\D/g, "").slice(0, 12);
 
